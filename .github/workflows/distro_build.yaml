@@ -130,7 +130,6 @@ jobs:
             -DBUILD_TESTING=OFF
 
       - name: Stage build artifacts for publishing
-        continue-on-error: true
         run: |
           build_dir=./uploads
           mkdir -p $build_dir
@@ -138,7 +137,7 @@ jobs:
           tar -cvf ${build_dir}/${{ github.event.repository.name }}-${MACHINE}-${DISTRO}-${QCOM_SELECTED_BSP}-artifacts.tar --transform "s|^${WORKSPACE}/||" -C ${WORKSPACE} install
 
       - name: Upload artifacts to S3 bucket
-        uses: qualcomm-linux/upload-private-artifact-action@aws-v4
+        uses: qualcomm-qrb-ros/qrb_ros_gh_actions/.github/actions/upload-artifact@main
         with:
           path: ./uploads
           destination: ${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ github.run_id }}-${{ github.run_attempt }}/
